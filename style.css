@@ -8,6 +8,7 @@ body {
   flex-direction: column;
   color: antiquewhite;
   background-color: black;
+  height: 100%;
 }
 
 #default-container,
@@ -20,6 +21,8 @@ body {
   width: 50%;
   justify-content: center;
   align-items: center;
+  flex: 1;
+  height: 750px;
 }
 
 .box,
