@@ -10,4 +10,4 @@ I've built a browser version of something between a sketchpad and an Etch-A-Sket
 
 3. Many more features to come like reverting to white rather than random color and etc.
 
-## [Link](https://acodein.github.io/Etch-a-Sketch/)
+## [Link of website](https://acodein.github.io/Etch-a-Sketch/)
