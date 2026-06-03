@@ -12,6 +12,13 @@ const randomColor = document.querySelector("#random-color");
 // DEFAULT GRID
 for (let i = 0; i < 16 * 16; i++) {
   const defaultBoxes = document.createElement("div");
+defaultContainer.style.gridTemplateColumns =
+  `repeat(16, 1fr)`;
+
+defaultContainer.style.gridTemplateRows =
+  `repeat(16, 1fr)`;
+  
+
   defaultBoxes.classList.add("box");
   defaultContainer.appendChild(defaultBoxes);
 
@@ -34,13 +41,26 @@ for (let i = 0; i < 16 * 16; i++) {
 //    user required grids from 1 to 100.
 noOfBoxes.addEventListener("click", () => {
   let number = prompt("Enter the number b/w 1 to 100: ");
-
+  number = Number(number);
   defaultContainer.innerHTML = "";
+
+  defaultContainer.style.gridTemplateColumns =
+  `repeat(${number}, 1fr)`;
+  defaultContainer.style.gridTemplateRows =
+  `repeat(${number}, 1fr)`;
+
+  if(number < 1 || number > 100 || isNaN(number)){
+    alert("Enter a number between 1 and 100");
+    return;
+  }
 
   for (let i = 0; i < number * number; i++) {
     const defaultBoxes = document.createElement("div");
 
-    defaultBoxes.classList.add("box");
+    if(number > 17 && number <= 22){
+    defaultBoxes.classList.add("mid-box");
+
+    }
 
     defaultContainer.appendChild(defaultBoxes);
 
@@ -66,6 +86,6 @@ function randomColorGenerator() {
   return `rgb(${r},${g},${b})`;
 }
 
-randomColor.addEventListener("click", () => {
-  defaultBoxes.style.backgroundColor = randomColorGenerator();
-});
+// randomColor.addEventListener("click", () => {
+ //   defaultBoxes.style.backgroundColor = randomColorGenerator();
+// });
