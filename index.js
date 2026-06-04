@@ -1,3 +1,5 @@
+let randomMode = false;
+
 const defaultContainer = document.getElementById("default-container");
 
 const userContainer = document.createElement("div");
@@ -9,76 +11,13 @@ const noOfBoxes = document.querySelector("#box-numbers");
 
 const randomColor = document.querySelector("#random-color");
 
-// DEFAULT GRID
-for (let i = 0; i < 16 * 16; i++) {
-  const defaultBoxes = document.createElement("div");
-defaultContainer.style.gridTemplateColumns =
-  `repeat(16, 1fr)`;
-
-defaultContainer.style.gridTemplateRows =
-  `repeat(16, 1fr)`;
-  
-
-  defaultBoxes.classList.add("box");
-  defaultContainer.appendChild(defaultBoxes);
-
-  defaultBoxes.addEventListener("mouseover", () => {
-    defaultBoxes.classList.add("hovered");
-  });
-
-  randomColor.addEventListener("click", () => {
-    defaultBoxes.addEventListener("mouseover", () => {
-      defaultBoxes.style.backgroundColor = randomColorGenerator();
-    });
-  });
-  clear.addEventListener("click", () => {
-    defaultBoxes.classList.remove("hovered");
-    defaultBoxes.style.backgroundColor = "";
-  });
-}
-
-// when the user presses Box Numbers for
-//    user required grids from 1 to 100.
-noOfBoxes.addEventListener("click", () => {
-  let number = prompt("Enter the number b/w 1 to 100: ");
-  number = Number(number);
-  defaultContainer.innerHTML = "";
-
-  defaultContainer.style.gridTemplateColumns =
-  `repeat(${number}, 1fr)`;
-  defaultContainer.style.gridTemplateRows =
-  `repeat(${number}, 1fr)`;
-
-  if(number < 1 || number > 100 || isNaN(number)){
-    alert("Enter a number between 1 and 100");
-    return;
-  }
-
-  for (let i = 0; i < number * number; i++) {
-    const defaultBoxes = document.createElement("div");
-
-    if(number > 17 && number <= 22){
-    defaultBoxes.classList.add("mid-box");
-
-    }
-
-    defaultContainer.appendChild(defaultBoxes);
-
-    defaultBoxes.addEventListener("mouseover", () => {
-      defaultBoxes.classList.add("hovered");
-    });
-    randomColor.addEventListener("click", () => {
-      defaultBoxes.addEventListener("mouseover", () => {
-        defaultBoxes.style.backgroundColor = randomColorGenerator();
-      });
-    });
-    clear.addEventListener("click", () => {
-      defaultBoxes.classList.remove("hovered");
-      defaultBoxes.style.backgroundColor = "";
-    });
-  }
+// RANDOM COLOR GENERATOR (set the randomMode to true)
+randomColor.addEventListener("click",()=>{
+  randomMode = !randomMode;
+  randomColor.textContent = randomMode ? "Random Color ON": "Random Color OFF";
 });
 
+// RANDOM COLOR GENERATOR (creating a function)
 function randomColorGenerator() {
   const r = Math.floor(Math.random() * 256);
   const g = Math.floor(Math.random() * 256);
@@ -86,6 +25,41 @@ function randomColorGenerator() {
   return `rgb(${r},${g},${b})`;
 }
 
-// randomColor.addEventListener("click", () => {
- //   defaultBoxes.style.backgroundColor = randomColorGenerator();
-// });
+// FUCNTION TO CREATE GRID
+
+let currentSize = 16;
+function createGrid(size){
+  size = Number(size);  
+    defaultContainer.innerHTML = "";
+
+  defaultContainer.style.gridTemplateColumns =
+  `repeat(${size}, 1fr)`;
+  defaultContainer.style.gridTemplateRows =
+  `repeat(${size}, 1fr)`;
+
+  for (let i = 0; i < size * size; i++) {
+    const defaultBoxes = document.createElement("div");
+
+    defaultContainer.appendChild(defaultBoxes);
+
+    defaultBoxes.addEventListener("mouseover", () => {
+      if(randomMode) {
+        defaultBoxes.style.backgroundColor = randomColorGenerator();
+      }else
+        defaultBoxes.style.backgroundColor = "white";
+    });
+  }
+}
+createGrid(currentSize);
+
+//CLEAR THE BOARD
+clear.addEventListener("click",()=>{
+  createGrid(currentSize)
+})
+
+//USER GIVING SIZE OF THE BOARD
+noOfBoxes.addEventListener("click",()=>{
+  let number = Number(prompt("create the board size between 1 and 100"))
+  currentSize = number;
+  createGrid(currentSize);
+})
