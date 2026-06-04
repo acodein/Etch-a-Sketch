@@ -1,4 +1,4 @@
-let randomMode = false;
+
 
 const defaultContainer = document.getElementById("default-container");
 
@@ -12,6 +12,8 @@ const noOfBoxes = document.querySelector("#box-numbers");
 const randomColor = document.querySelector("#random-color");
 
 // RANDOM COLOR GENERATOR (set the randomMode to true)
+let randomMode = false;
+
 randomColor.addEventListener("click",()=>{
   randomMode = !randomMode;
   randomColor.textContent = randomMode ? "Random Color ON": "Random Color OFF";
@@ -28,6 +30,7 @@ function randomColorGenerator() {
 // FUCNTION TO CREATE GRID
 
 let currentSize = 16;
+
 function createGrid(size){
   size = Number(size);  
     defaultContainer.innerHTML = "";
@@ -38,19 +41,24 @@ function createGrid(size){
   `repeat(${size}, 1fr)`;
 
   for (let i = 0; i < size * size; i++) {
-    const defaultBoxes = document.createElement("div");
-
-    defaultContainer.appendChild(defaultBoxes);
-
-    defaultBoxes.addEventListener("mouseover", () => {
-      if(randomMode) {
-        defaultBoxes.style.backgroundColor = randomColorGenerator();
-      }else
-        defaultBoxes.style.backgroundColor = "white";
-    });
+    const box = document.createElement("div");
+    box.classList.add("box")
+    defaultContainer.appendChild(box);
   }
 }
 createGrid(currentSize);
+
+
+//COLOR THE BOARD
+defaultContainer.addEventListener("mouseover", (e) => {
+  if(!e.target.classList.contains("box")) return;
+
+      if(randomMode) {
+        e.target.style.backgroundColor = randomColorGenerator();
+      }else {
+          e.target.style.backgroundColor = "white";
+       } 
+    });
 
 //CLEAR THE BOARD
 clear.addEventListener("click",()=>{
